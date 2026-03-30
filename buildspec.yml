@@ -3,25 +3,22 @@ version: 0.2
 phases:
   install:
     commands:
-      echo "Installing Node 22..."
-      # Download and setup Node 22
-      curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
-      yum install -y nodejs
-      # Ensure Node 22 is used
-      export PATH=/usr/bin:$PATH
-      node -v
-      npm -v
-      # Install project dependencies
-      npm install
+      - echo "Installing Node 22..."
+      - curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
+      - yum install -y nodejs
+      - export PATH=/usr/bin:$PATH
+      - node -v
+      - npm -v
+      - npm install
 
   pre_build:
     commands:
-      echo "Preparing to build branch $CODEBUILD_SOURCE_VERSION"
+      - echo "Preparing to build branch $CODEBUILD_SOURCE_VERSION"
 
   build:
     commands:
-      echo "Running Vite build..."
-      npm run build
+      - echo "Running Vite build..."
+      - npm run build
 
 artifacts:
   files:
