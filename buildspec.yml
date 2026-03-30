@@ -2,10 +2,16 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 18
     commands:
+      # Install Node 22
+      - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+      - apt-get install -y nodejs
+      - node -v
+      - npm -v
+
+      # Install dependencies
       - npm install
+
   build:
     commands:
       - npm run build
@@ -13,4 +19,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: dist   # or build depending on your framework
+  base-directory: dist
