@@ -3,17 +3,30 @@ version: 0.2
 phases:
   install:
     commands:
-      # Install Node 22
-      - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-      - apt-get install -y nodejs
+      # Install nvm to manage Node versions
+      - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.6/install.sh | bash
+      - export NVM_DIR="$HOME/.nvm"
+      - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+      # Install and use Node 22
+      - nvm install 22
+      - nvm use 22
+
+      # Verify Node and npm versions
       - node -v
       - npm -v
 
-      # Install dependencies
+      # Install project dependencies
       - npm install
+
+  pre_build:
+    commands:
+      # Optional: run tests or lint here if needed
+      - echo "Pre-build phase complete"
 
   build:
     commands:
+      # Build your Vite project
       - npm run build
 
 artifacts:
