@@ -3,24 +3,28 @@ version: 0.2
 phases:
   install:
     commands:
-      - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.6/install.sh | bash
-      - export NVM_DIR="$HOME/.nvm"
-      - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      - nvm install 22
-      - nvm use 22
-      - node -v
-      - npm -v
-      - npm install
+      echo "Installing Node 22..."
+      # Download and setup Node 22
+      curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
+      yum install -y nodejs
+      # Ensure Node 22 is used
+      export PATH=/usr/bin:$PATH
+      node -v
+      npm -v
+      # Install project dependencies
+      npm install
 
   pre_build:
     commands:
-      - echo "Pre-build phase complete"
+      echo "Preparing to build branch $CODEBUILD_SOURCE_VERSION"
 
   build:
     commands:
-      - npm run build
+      echo "Running Vite build..."
+      npm run build
 
 artifacts:
   files:
     - '**/*'
-  base-directory: dist
+  base-directory: dist   # Vite default output
+  discard-paths: yes
