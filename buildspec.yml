@@ -24,4 +24,4 @@ artifacts:
   files:
     - '**/*'
   base-directory: dist   # Vite default output
-  discard-paths: yes
+  discard-paths: no
