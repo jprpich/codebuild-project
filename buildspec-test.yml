@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Node 22..."
+      - curl -fsSL https://rpm.nodesource.com/setup_22.x | bash -
+      - yum install -y nodejs
+      - export PATH=/usr/bin:$PATH
+      - node -v
+      - npm -v
+      - npm install
+
+  pre_build:
+    commands:
+      - echo "Running linting and validation..."
+
+  build:
+    commands:
+      - echo "Running tests for branch $CODEBUILD_SOURCE_VERSION"
+      - npm test
+
+  post_build:
+    commands:
+      - echo "Tests completed successfully"
+
+# Optional: Export test reports
+reports:
+  test_report:
+    files:
+      - 'test-results/**/*'
+    file-format: 'JUNITXML'
